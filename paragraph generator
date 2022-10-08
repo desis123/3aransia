@@ -1,0 +1,579 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "collapsed_sections": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/desis123/3aransia/blob/master/paragraph%20generator\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "6QzM5-ol-AZf"
+      },
+      "source": [
+        "# Use\n",
+        "\n",
+        "It referes to this github [repo](https://github.com/airKlizz/TextSegmentation)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "nxjxv7FOBGIU"
+      },
+      "source": [
+        "## Download code and weights"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "gSLbVY_oBy6Y",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 156
+        },
+        "outputId": "3849a294-b550-4563-ff04-c607ae661528"
+      },
+      "source": [
+        "!git clone https://github.com/airKlizz/TextSegmentation\n",
+        "%cd TextSegmentation/"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Cloning into 'TextSegmentation'...\n",
+            "remote: Enumerating objects: 158, done.\u001b[K\n",
+            "remote: Counting objects:   0% (1/158)\u001b[K\rremote: Counting objects:   1% (2/158)\u001b[K\rremote: Counting objects:   2% (4/158)\u001b[K\rremote: Counting objects:   3% (5/158)\u001b[K\rremote: Counting objects:   4% (7/158)\u001b[K\rremote: Counting objects:   5% (8/158)\u001b[K\rremote: Counting objects:   6% (10/158)\u001b[K\rremote: Counting objects:   7% (12/158)\u001b[K\rremote: Counting objects:   8% (13/158)\u001b[K\rremote: Counting objects:   9% (15/158)\u001b[K\rremote: Counting objects:  10% (16/158)\u001b[K\rremote: Counting objects:  11% (18/158)\u001b[K\rremote: Counting objects:  12% (19/158)\u001b[K\rremote: Counting objects:  13% (21/158)\u001b[K\rremote: Counting objects:  14% (23/158)\u001b[K\rremote: Counting objects:  15% (24/158)\u001b[K\rremote: Counting objects:  16% (26/158)\u001b[K\rremote: Counting objects:  17% (27/158)\u001b[K\rremote: Counting objects:  18% (29/158)\u001b[K\rremote: Counting objects:  19% (31/158)\u001b[K\rremote: Counting objects:  20% (32/158)\u001b[K\rremote: Counting objects:  21% (34/158)\u001b[K\rremote: Counting objects:  22% (35/158)\u001b[K\rremote: Counting objects:  23% (37/158)\u001b[K\rremote: Counting objects:  24% (38/158)\u001b[K\rremote: Counting objects:  25% (40/158)\u001b[K\rremote: Counting objects:  26% (42/158)\u001b[K\rremote: Counting objects:  27% (43/158)\u001b[K\rremote: Counting objects:  28% (45/158)\u001b[K\rremote: Counting objects:  29% (46/158)\u001b[K\rremote: Counting objects:  30% (48/158)\u001b[K\rremote: Counting objects:  31% (49/158)\u001b[K\rremote: Counting objects:  32% (51/158)\u001b[K\rremote: Counting objects:  33% (53/158)\u001b[K\rremote: Counting objects:  34% (54/158)\u001b[K\rremote: Counting objects:  35% (56/158)\u001b[K\rremote: Counting objects:  36% (57/158)\u001b[K\rremote: Counting objects:  37% (59/158)\u001b[K\rremote: Counting objects:  38% (61/158)\u001b[K\rremote: Counting objects:  39% (62/158)\u001b[K\rremote: Counting objects:  40% (64/158)\u001b[K\rremote: Counting objects:  41% (65/158)\u001b[K\rremote: Counting objects:  42% (67/158)\u001b[K\rremote: Counting objects:  43% (68/158)\u001b[K\rremote: Counting objects:  44% (70/158)\u001b[K\rremote: Counting objects:  45% (72/158)\u001b[K\rremote: Counting objects:  46% (73/158)\u001b[K\rremote: Counting objects:  47% (75/158)\u001b[K\rremote: Counting objects:  48% (76/158)\u001b[K\rremote: Counting objects:  49% (78/158)\u001b[K\rremote: Counting objects:  50% (79/158)\u001b[K\rremote: Counting objects:  51% (81/158)\u001b[K\rremote: Counting objects:  52% (83/158)\u001b[K\rremote: Counting objects:  53% (84/158)\u001b[K\rremote: Counting objects:  54% (86/158)\u001b[K\rremote: Counting objects:  55% (87/158)\u001b[K\rremote: Counting objects:  56% (89/158)\u001b[K\rremote: Counting objects:  57% (91/158)\u001b[K\rremote: Counting objects:  58% (92/158)\u001b[K\rremote: Counting objects:  59% (94/158)\u001b[K\rremote: Counting objects:  60% (95/158)\u001b[K\rremote: Counting objects:  61% (97/158)\u001b[K\rremote: Counting objects:  62% (98/158)\u001b[K\rremote: Counting objects:  63% (100/158)\u001b[K\rremote: Counting objects:  64% (102/158)\u001b[K\rremote: Counting objects:  65% (103/158)\u001b[K\rremote: Counting objects:  66% (105/158)\u001b[K\rremote: Counting objects:  67% (106/158)\u001b[K\rremote: Counting objects:  68% (108/158)\u001b[K\rremote: Counting objects:  69% (110/158)\u001b[K\rremote: Counting objects:  70% (111/158)\u001b[K\rremote: Counting objects:  71% (113/158)\u001b[K\rremote: Counting objects:  72% (114/158)\u001b[K\rremote: Counting objects:  73% (116/158)\u001b[K\rremote: Counting objects:  74% (117/158)\u001b[K\rremote: Counting objects:  75% (119/158)\u001b[K\rremote: Counting objects:  76% (121/158)\u001b[K\rremote: Counting objects:  77% (122/158)\u001b[K\rremote: Counting objects:  78% (124/158)\u001b[K\rremote: Counting objects:  79% (125/158)\u001b[K\rremote: Counting objects:  80% (127/158)\u001b[K\rremote: Counting objects:  81% (128/158)\u001b[K\rremote: Counting objects:  82% (130/158)\u001b[K\rremote: Counting objects:  83% (132/158)\u001b[K\rremote: Counting objects:  84% (133/158)\u001b[K\rremote: Counting objects:  85% (135/158)\u001b[K\rremote: Counting objects:  86% (136/158)\u001b[K\rremote: Counting objects:  87% (138/158)\u001b[K\rremote: Counting objects:  88% (140/158)\u001b[K\rremote: Counting objects:  89% (141/158)\u001b[K\rremote: Counting objects:  90% (143/158)\u001b[K\rremote: Counting objects:  91% (144/158)\u001b[K\rremote: Counting objects:  92% (146/158)\u001b[K\rremote: Counting objects:  93% (147/158)\u001b[K\rremote: Counting objects:  94% (149/158)\u001b[K\rremote: Counting objects:  95% (151/158)\u001b[K\rremote: Counting objects:  96% (152/158)\u001b[K\rremote: Counting objects:  97% (154/158)\u001b[K\rremote: Counting objects:  98% (155/158)\u001b[K\rremote: Counting objects:  99% (157/158)\u001b[K\rremote: Counting objects: 100% (158/158)\u001b[K\rremote: Counting objects: 100% (158/158), done.\u001b[K\n",
+            "remote: Compressing objects:   0% (1/116)\u001b[K\rremote: Compressing objects:   1% (2/116)\u001b[K\rremote: Compressing objects:   2% (3/116)\u001b[K\rremote: Compressing objects:   3% (4/116)\u001b[K\rremote: Compressing objects:   4% (5/116)\u001b[K\rremote: Compressing objects:   5% (6/116)\u001b[K\rremote: Compressing objects:   6% (7/116)\u001b[K\rremote: Compressing objects:   7% (9/116)\u001b[K\rremote: Compressing objects:   8% (10/116)\u001b[K\rremote: Compressing objects:   9% (11/116)\u001b[K\rremote: Compressing objects:  10% (12/116)\u001b[K\rremote: Compressing objects:  11% (13/116)\u001b[K\rremote: Compressing objects:  12% (14/116)\u001b[K\rremote: Compressing objects:  13% (16/116)\u001b[K\rremote: Compressing objects:  14% (17/116)\u001b[K\rremote: Compressing objects:  15% (18/116)\u001b[K\rremote: Compressing objects:  16% (19/116)\u001b[K\rremote: Compressing objects:  17% (20/116)\u001b[K\rremote: Compressing objects:  18% (21/116)\u001b[K\rremote: Compressing objects:  19% (23/116)\u001b[K\rremote: Compressing objects:  20% (24/116)\u001b[K\rremote: Compressing objects:  21% (25/116)\u001b[K\rremote: Compressing objects:  22% (26/116)\u001b[K\rremote: Compressing objects:  23% (27/116)\u001b[K\rremote: Compressing objects:  24% (28/116)\u001b[K\rremote: Compressing objects:  25% (29/116)\u001b[K\rremote: Compressing objects:  26% (31/116)\u001b[K\rremote: Compressing objects:  27% (32/116)\u001b[K\rremote: Compressing objects:  28% (33/116)\u001b[K\rremote: Compressing objects:  29% (34/116)\u001b[K\rremote: Compressing objects:  30% (35/116)\u001b[K\rremote: Compressing objects:  31% (36/116)\u001b[K\rremote: Compressing objects:  32% (38/116)\u001b[K\rremote: Compressing objects:  33% (39/116)\u001b[K\rremote: Compressing objects:  34% (40/116)\u001b[K\rremote: Compressing objects:  35% (41/116)\u001b[K\rremote: Compressing objects:  36% (42/116)\u001b[K\rremote: Compressing objects:  37% (43/116)\u001b[K\rremote: Compressing objects:  38% (45/116)\u001b[K\rremote: Compressing objects:  39% (46/116)\u001b[K\rremote: Compressing objects:  40% (47/116)\u001b[K\rremote: Compressing objects:  41% (48/116)\u001b[K\rremote: Compressing objects:  42% (49/116)\u001b[K\rremote: Compressing objects:  43% (50/116)\u001b[K\rremote: Compressing objects:  44% (52/116)\u001b[K\rremote: Compressing objects:  45% (53/116)\u001b[K\rremote: Compressing objects:  46% (54/116)\u001b[K\rremote: Compressing objects:  47% (55/116)\u001b[K\rremote: Compressing objects:  48% (56/116)\u001b[K\rremote: Compressing objects:  49% (57/116)\u001b[K\rremote: Compressing objects:  50% (58/116)\u001b[K\rremote: Compressing objects:  51% (60/116)\u001b[K\rremote: Compressing objects:  52% (61/116)\u001b[K\rremote: Compressing objects:  53% (62/116)\u001b[K\rremote: Compressing objects:  54% (63/116)\u001b[K\rremote: Compressing objects:  55% (64/116)\u001b[K\rremote: Compressing objects:  56% (65/116)\u001b[K\rremote: Compressing objects:  57% (67/116)\u001b[K\rremote: Compressing objects:  58% (68/116)\u001b[K\rremote: Compressing objects:  59% (69/116)\u001b[K\rremote: Compressing objects:  60% (70/116)\u001b[K\rremote: Compressing objects:  61% (71/116)\u001b[K\rremote: Compressing objects:  62% (72/116)\u001b[K\rremote: Compressing objects:  63% (74/116)\u001b[K\rremote: Compressing objects:  64% (75/116)\u001b[K\rremote: Compressing objects:  65% (76/116)\u001b[K\rremote: Compressing objects:  66% (77/116)\u001b[K\rremote: Compressing objects:  67% (78/116)\u001b[K\rremote: Compressing objects:  68% (79/116)\u001b[K\rremote: Compressing objects:  69% (81/116)\u001b[K\rremote: Compressing objects:  70% (82/116)\u001b[K\rremote: Compressing objects:  71% (83/116)\u001b[K\rremote: Compressing objects:  72% (84/116)\u001b[K\rremote: Compressing objects:  73% (85/116)\u001b[K\rremote: Compressing objects:  74% (86/116)\u001b[K\rremote: Compressing objects:  75% (87/116)\u001b[K\rremote: Compressing objects:  76% (89/116)\u001b[K\rremote: Compressing objects:  77% (90/116)\u001b[K\rremote: Compressing objects:  78% (91/116)\u001b[K\rremote: Compressing objects:  79% (92/116)\u001b[K\rremote: Compressing objects:  80% (93/116)\u001b[K\rremote: Compressing objects:  81% (94/116)\u001b[K\rremote: Compressing objects:  82% (96/116)\u001b[K\rremote: Compressing objects:  83% (97/116)\u001b[K\rremote: Compressing objects:  84% (98/116)\u001b[K\rremote: Compressing objects:  85% (99/116)\u001b[K\rremote: Compressing objects:  86% (100/116)\u001b[K\rremote: Compressing objects:  87% (101/116)\u001b[K\rremote: Compressing objects:  88% (103/116)\u001b[K\rremote: Compressing objects:  89% (104/116)\u001b[K\rremote: Compressing objects:  90% (105/116)\u001b[K\rremote: Compressing objects:  91% (106/116)\u001b[K\rremote: Compressing objects:  92% (107/116)\u001b[K\rremote: Compressing objects:  93% (108/116)\u001b[K\rremote: Compressing objects:  94% (110/116)\u001b[K\rremote: Compressing objects:  95% (111/116)\u001b[K\rremote: Compressing objects:  96% (112/116)\u001b[K\rremote: Compressing objects:  97% (113/116)\u001b[K\rremote: Compressing objects:  98% (114/116)\u001b[K\rremote: Compressing objects:  99% (115/116)\u001b[K\rremote: Compressing objects: 100% (116/116)\u001b[K\rremote: Compressing objects: 100% (116/116), done.\u001b[K\n",
+            "Receiving objects:   0% (1/158)   \rReceiving objects:   1% (2/158)   \rReceiving objects:   2% (4/158)   \rReceiving objects:   3% (5/158)   \rReceiving objects:   4% (7/158)   \rReceiving objects:   5% (8/158)   \rReceiving objects:   6% (10/158)   \rReceiving objects:   7% (12/158)   \rReceiving objects:   8% (13/158)   \rReceiving objects:   9% (15/158)   \rReceiving objects:  10% (16/158)   \rReceiving objects:  11% (18/158)   \rReceiving objects:  12% (19/158)   \rReceiving objects:  13% (21/158)   \rReceiving objects:  14% (23/158)   \rReceiving objects:  15% (24/158)   \rReceiving objects:  16% (26/158)   \rReceiving objects:  17% (27/158)   \rReceiving objects:  18% (29/158)   \rReceiving objects:  19% (31/158)   \rReceiving objects:  20% (32/158)   \rReceiving objects:  21% (34/158)   \rReceiving objects:  22% (35/158)   \rReceiving objects:  23% (37/158)   \rReceiving objects:  24% (38/158)   \rReceiving objects:  25% (40/158)   \rReceiving objects:  26% (42/158)   \rReceiving objects:  27% (43/158)   \rReceiving objects:  28% (45/158)   \rReceiving objects:  29% (46/158)   \rReceiving objects:  30% (48/158)   \rReceiving objects:  31% (49/158)   \rReceiving objects:  32% (51/158)   \rReceiving objects:  33% (53/158)   \rReceiving objects:  34% (54/158)   \rReceiving objects:  35% (56/158)   \rReceiving objects:  36% (57/158)   \rReceiving objects:  37% (59/158)   \rReceiving objects:  38% (61/158)   \rReceiving objects:  39% (62/158)   \rReceiving objects:  40% (64/158)   \rReceiving objects:  41% (65/158)   \rReceiving objects:  42% (67/158)   \rReceiving objects:  43% (68/158)   \rReceiving objects:  44% (70/158)   \rReceiving objects:  45% (72/158)   \rReceiving objects:  46% (73/158)   \rReceiving objects:  47% (75/158)   \rReceiving objects:  48% (76/158)   \rReceiving objects:  49% (78/158)   \rReceiving objects:  50% (79/158)   \rReceiving objects:  51% (81/158)   \rReceiving objects:  52% (83/158)   \rReceiving objects:  53% (84/158)   \rReceiving objects:  54% (86/158)   \rReceiving objects:  55% (87/158)   \rReceiving objects:  56% (89/158)   \rReceiving objects:  57% (91/158)   \rReceiving objects:  58% (92/158)   \rReceiving objects:  59% (94/158)   \rReceiving objects:  60% (95/158)   \rReceiving objects:  61% (97/158)   \rReceiving objects:  62% (98/158)   \rReceiving objects:  63% (100/158)   \rReceiving objects:  64% (102/158)   \rReceiving objects:  65% (103/158)   \rReceiving objects:  66% (105/158)   \rReceiving objects:  67% (106/158)   \rReceiving objects:  68% (108/158)   \rReceiving objects:  69% (110/158)   \rReceiving objects:  70% (111/158)   \rReceiving objects:  71% (113/158)   \rReceiving objects:  72% (114/158)   \rReceiving objects:  73% (116/158)   \rReceiving objects:  74% (117/158)   \rReceiving objects:  75% (119/158)   \rReceiving objects:  76% (121/158)   \rReceiving objects:  77% (122/158)   \rReceiving objects:  78% (124/158)   \rReceiving objects:  79% (125/158)   \rReceiving objects:  80% (127/158)   \rReceiving objects:  81% (128/158)   \rReceiving objects:  82% (130/158)   \rReceiving objects:  83% (132/158)   \rReceiving objects:  84% (133/158)   \rReceiving objects:  85% (135/158)   \rReceiving objects:  86% (136/158)   \rReceiving objects:  87% (138/158)   \rReceiving objects:  88% (140/158)   \rReceiving objects:  89% (141/158)   \rReceiving objects:  90% (143/158)   \rReceiving objects:  91% (144/158)   \rReceiving objects:  92% (146/158)   \rReceiving objects:  93% (147/158)   \rReceiving objects:  94% (149/158)   \rReceiving objects:  95% (151/158)   \rReceiving objects:  96% (152/158)   \rReceiving objects:  97% (154/158)   \rReceiving objects:  98% (155/158)   \rReceiving objects:  99% (157/158)   \rremote: Total 158 (delta 80), reused 100 (delta 34), pack-reused 0\u001b[K\n",
+            "Receiving objects: 100% (158/158)   \rReceiving objects: 100% (158/158), 662.68 KiB | 12.05 MiB/s, done.\n",
+            "Resolving deltas:   0% (0/80)   \rResolving deltas:  16% (13/80)   \rResolving deltas:  28% (23/80)   \rResolving deltas:  32% (26/80)   \rResolving deltas:  41% (33/80)   \rResolving deltas:  56% (45/80)   \rResolving deltas:  58% (47/80)   \rResolving deltas:  61% (49/80)   \rResolving deltas:  67% (54/80)   \rResolving deltas:  76% (61/80)   \rResolving deltas:  85% (68/80)   \rResolving deltas:  86% (69/80)   \rResolving deltas:  88% (71/80)   \rResolving deltas:  93% (75/80)   \rResolving deltas:  95% (76/80)   \rResolving deltas: 100% (80/80)   \rResolving deltas: 100% (80/80), done.\n",
+            "/content/TextSegmentation\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "a9DZOVBW9-jT",
+        "cellView": "form",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 350
+        },
+        "outputId": "388f9a34-915e-47ba-9be0-1866e2090f81"
+      },
+      "source": [
+        "#@markdown Choose your model:\n",
+        "\n",
+        "model = \"cnn_segmenter_tfhub_bidirectional_1\"  #@param ['wikinews_segmenter_tfhub_simple_1', 'wikinews_segmenter_tfhub_bidirectional_1', 'wikinews_segmenter_tfhub_bidirectional_2', 'cnn_segmenter_tfhub_bidirectional_1', 'cnn_segmenter_tfhub_bidirectional_2']\n",
+        "\n",
+        "model_weights = 'model/saved_weights/{}.h5'.format(model)\n",
+        "\n",
+        "if model == 'wikinews_segmenter_tfhub_simple_1':\n",
+        "    %cd model/saved_weights/\n",
+        "    !wget https://github.com/airKlizz/TextSegmentation/releases/download/v1.2-model.weights/wikinews_segmenter_tfhub_simple_1.h5\n",
+        "    %cd ../..\n",
+        "    bidirectional = False\n",
+        "    num_classification_layers = 1\n",
+        "\n",
+        "elif model == 'wikinews_segmenter_tfhub_bidirectional_1':\n",
+        "    %cd model/saved_weights/\n",
+        "    !wget https://github.com/airKlizz/TextSegmentation/releases/download/v1.2-model.weights/wikinews_segmenter_tfhub_bidirectional_1.h5\n",
+        "    %cd ../..\n",
+        "    bidirectional = True\n",
+        "    num_classification_layers = 1\n",
+        "\n",
+        "elif model == 'wikinews_segmenter_tfhub_bidirectional_2':\n",
+        "    %cd model/saved_weights/\n",
+        "    !wget https://github.com/airKlizz/TextSegmentation/releases/download/v1.2-model.weights/wikinews_segmenter_tfhub_bidirectional_2.h5\n",
+        "    %cd ../..\n",
+        "    bidirectional = True\n",
+        "    num_classification_layers = 2\n",
+        "\n",
+        "elif model == 'cnn_segmenter_tfhub_bidirectional_1':\n",
+        "    %cd model/saved_weights/\n",
+        "    !wget https://github.com/airKlizz/TextSegmentation/releases/download/v1.2-model.weights/cnn_segmenter_tfhub_bidirectional_1.h5\n",
+        "    %cd ../..\n",
+        "    bidirectional = True\n",
+        "    num_classification_layers = 1\n",
+        "\n",
+        "elif model == 'cnn_segmenter_tfhub_bidirectional_2':\n",
+        "    %cd model/saved_weights/\n",
+        "    !wget https://github.com/airKlizz/TextSegmentation/releases/download/v1.2-model.weights/cnn_segmenter_tfhub_bidirectional_2.h5\n",
+        "    %cd ../..\n",
+        "    bidirectional = True\n",
+        "    num_classification_layers = 2\n",
+        "\n",
+        "else:\n",
+        "    print('Model doesn\\'t exist')\n",
+        "\n"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content/TextSegmentation/model/saved_weights\n",
+            "--2020-05-04 10:02:29--  https://github.com/airKlizz/TextSegmentation/releases/download/v1.2-model.weights/cnn_segmenter_tfhub_bidirectional_1.h5\n",
+            "Resolving github.com (github.com)... 140.82.113.4\n",
+            "Connecting to github.com (github.com)|140.82.113.4|:443... connected.\n",
+            "HTTP request sent, awaiting response... 302 Found\n",
+            "Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/254333333/ba09db80-8bae-11ea-814d-2ade23503f75?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200504%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200504T100230Z&X-Amz-Expires=300&X-Amz-Signature=7df3aad3c54b0025f7896af8e1fc53d37628142453a6c45625766192e4b840ae&X-Amz-SignedHeaders=host&actor_id=0&repo_id=254333333&response-content-disposition=attachment%3B%20filename%3Dcnn_segmenter_tfhub_bidirectional_1.h5&response-content-type=application%2Foctet-stream [following]\n",
+            "--2020-05-04 10:02:30--  https://github-production-release-asset-2e65be.s3.amazonaws.com/254333333/ba09db80-8bae-11ea-814d-2ade23503f75?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200504%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200504T100230Z&X-Amz-Expires=300&X-Amz-Signature=7df3aad3c54b0025f7896af8e1fc53d37628142453a6c45625766192e4b840ae&X-Amz-SignedHeaders=host&actor_id=0&repo_id=254333333&response-content-disposition=attachment%3B%20filename%3Dcnn_segmenter_tfhub_bidirectional_1.h5&response-content-type=application%2Foctet-stream\n",
+            "Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.29.44\n",
+            "Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.29.44|:443... connected.\n",
+            "HTTP request sent, awaiting response... 200 OK\n",
+            "Length: 595880464 (568M) [application/octet-stream]\n",
+            "Saving to: ‘cnn_segmenter_tfhub_bidirectional_1.h5.1’\n",
+            "\n",
+            "cnn_segmenter_tfhub 100%[===================>] 568.28M  30.2MB/s    in 18s     \n",
+            "\n",
+            "2020-05-04 10:02:47 (31.9 MB/s) - ‘cnn_segmenter_tfhub_bidirectional_1.h5.1’ saved [595880464/595880464]\n",
+            "\n",
+            "/content/TextSegmentation\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-lTP14D_IdTI"
+      },
+      "source": [
+        "## Evaluation"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eR_q6FLoIf43",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 52
+        },
+        "outputId": "ab792209-a142-494d-d641-21fe6213767e"
+      },
+      "source": [
+        "from use import TextSegmenter\n",
+        "import nltk\n",
+        "nltk.download('punkt')\n",
+        "import pprint"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Package punkt is already up-to-date!\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "JTo2_5vFHCRj",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "baa66231-7ee3-4d46-ff42-6e710f2da28c"
+      },
+      "source": [
+        "segmenter = TextSegmenter(model_weights, bidirectional, num_classification_layers)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Bidirectional recurrent layer\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "EQSyR5BDEm2B",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 208
+        },
+        "outputId": "0dab4d18-bf83-466b-fb0b-1a5a37a11726"
+      },
+      "source": [
+        "example = \"In 1818 New Moabit was founded and grew together with Old Moabit to an industrial suburb district, which was incorporated into the city of Berlin in 1861. The industrialization started in 1820 when, with the financial support of court counsellor Baillif, a simple bridge was built to connect the island to the Berlin mainland. The bridge was followed by factories, a power plant, the Berlin-Spandau Canal, the Westhafen port and the Hamburger Bahnhof train station which connected Berlin with Hamburg. A network of streets was laid out in the Hobrecht-Plan in an area that came to be known architecturally as the Wilhelmine Ring. All of that activity resulted in an exponential growth of the population and the subsequent construction of tenements in Moabit and neighbouring Wedding, facilitating the spread of a smallpox epidemic.\"\n",
+        "example_wikinews = \"United States forces killed nine suspected al-Qaeda members in a raid at a town around 12 miles south of Baghdad on Thursday. Soldiers told residents in the area to get out of their homes after they noticed several armed men in a nearby wooded area. The soldiers then asked for air support, which killed nine of the insurgents. The insurgents were wearing high explosives, say the soldiers. Nine other suspected insurgents were arrested in the raid.\"\n",
+        "example_cnn = \"The bridge is a critical traffic artery for northern Italy. It connects two sides of the city of Genoa and serves its busy mercantile port, while being part of the E80 European highway that links Italy to France. It's also on a main route used by holidaymakers heading to the Ligurian Riviera from cities like Turin and Milan. More importantly, it was built on the scene of tragedy, replacing an earlier structure, the Morandi bridge, which collapsed on August 14, 2018, killing 43 people. That the replacement has arrived less than two years after the disaster is something of an achievement. It was constructed rapidly, in a country rarely considered an exemplar of efficiency. Some of the most challenging work was carried out amid Europe\\'s worst coronavirus outbreak. \"\n",
+        "pprint.pprint(example_cnn)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('The bridge is a critical traffic artery for northern Italy. It connects two '\n",
+            " 'sides of the city of Genoa and serves its busy mercantile port, while being '\n",
+            " \"part of the E80 European highway that links Italy to France. It's also on a \"\n",
+            " 'main route used by holidaymakers heading to the Ligurian Riviera from cities '\n",
+            " 'like Turin and Milan. More importantly, it was built on the scene of '\n",
+            " 'tragedy, replacing an earlier structure, the Morandi bridge, which collapsed '\n",
+            " 'on August 14, 2018, killing 43 people. That the replacement has arrived less '\n",
+            " 'than two years after the disaster is something of an achievement. It was '\n",
+            " 'constructed rapidly, in a country rarely considered an exemplar of '\n",
+            " \"efficiency. Some of the most challenging work was carried out amid Europe's \"\n",
+            " 'worst coronavirus outbreak. ')\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ojZK3uO4Is6f",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 399
+        },
+        "outputId": "338d7fe5-279e-483d-d87e-371081d2d393"
+      },
+      "source": [
+        "passages = segmenter.segment(example_cnn)\n",
+        "for passage in passages:\n",
+        "    pprint.pprint(passage)\n",
+        "    print()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "'The bridge is a critical traffic artery for northern Italy.'\n",
+            "\n",
+            "('It connects two sides of the city of Genoa and serves its busy mercantile '\n",
+            " 'port, while being part of the E80 European highway that links Italy to '\n",
+            " 'France.')\n",
+            "\n",
+            "(\"It's also on a main route used by holidaymakers heading to the Ligurian \"\n",
+            " 'Riviera from cities like Turin and Milan.')\n",
+            "\n",
+            "('More importantly, it was built on the scene of tragedy, replacing an earlier '\n",
+            " 'structure, the Morandi bridge, which collapsed on August 14, 2018, killing '\n",
+            " '43 people.')\n",
+            "\n",
+            "('That the replacement has arrived less than two years after the disaster is '\n",
+            " 'something of an achievement.')\n",
+            "\n",
+            "('It was constructed rapidly, in a country rarely considered an exemplar of '\n",
+            " 'efficiency.')\n",
+            "\n",
+            "(\"Some of the most challenging work was carried out amid Europe's worst \"\n",
+            " 'coronavirus outbreak.')\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FryfPGV4HwMO",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 295
+        },
+        "outputId": "7f054456-2f5c-498a-bd37-a6bec549aee5"
+      },
+      "source": [
+        "# CNN bidirectional 2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('The bridge is a critical traffic artery for northern Italy. It connects two '\n",
+            " 'sides of the city of Genoa and serves its busy mercantile port, while being '\n",
+            " 'part of the E80 European highway that links Italy to France.')\n",
+            "\n",
+            "(\"It's also on a main route used by holidaymakers heading to the Ligurian \"\n",
+            " 'Riviera from cities like Turin and Milan.')\n",
+            "\n",
+            "('More importantly, it was built on the scene of tragedy, replacing an earlier '\n",
+            " 'structure, the Morandi bridge, which collapsed on August 14, 2018, killing '\n",
+            " '43 people.')\n",
+            "\n",
+            "('That the replacement has arrived less than two years after the disaster is '\n",
+            " 'something of an achievement. It was constructed rapidly, in a country rarely '\n",
+            " 'considered an exemplar of efficiency. Some of the most challenging work was '\n",
+            " \"carried out amid Europe's worst coronavirus outbreak.\")\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ln0TsoaQH7Lv",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 208
+        },
+        "outputId": "e2f856f5-d40c-47d3-8f7f-091cb5ddb12c"
+      },
+      "source": [
+        "# CNN bidirectional 2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('United States forces killed nine suspected al-Qaeda members in a raid at a '\n",
+            " 'town around 12 miles south of Baghdad on Thursday.')\n",
+            "\n",
+            "('Soldiers told residents in the area to get out of their homes after they '\n",
+            " 'noticed several armed men in a nearby wooded area.')\n",
+            "\n",
+            "'The soldiers then asked for air support, which killed nine of the insurgents.'\n",
+            "\n",
+            "('The insurgents were wearing high explosives, say the soldiers. Nine other '\n",
+            " 'suspected insurgents were arrested in the raid.')\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "BCwshzGTH6rI",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 347
+        },
+        "outputId": "494e78d5-3eae-462e-f490-3bca52036f9e"
+      },
+      "source": [
+        "# CNN bidirectional 2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('In 1818 New Moabit was founded and grew together with Old Moabit to an '\n",
+            " 'industrial suburb district, which was incorporated into the city of Berlin '\n",
+            " 'in 1861.')\n",
+            "\n",
+            "('The industrialization started in 1820 when, with the financial support of '\n",
+            " 'court counsellor Baillif, a simple bridge was built to connect the island to '\n",
+            " 'the Berlin mainland.')\n",
+            "\n",
+            "('The bridge was followed by factories, a power plant, the Berlin-Spandau '\n",
+            " 'Canal, the Westhafen port and the Hamburger Bahnhof train station which '\n",
+            " 'connected Berlin with Hamburg.')\n",
+            "\n",
+            "('A network of streets was laid out in the Hobrecht-Plan in an area that came '\n",
+            " 'to be known architecturally as the Wilhelmine Ring.')\n",
+            "\n",
+            "('All of that activity resulted in an exponential growth of the population and '\n",
+            " 'the subsequent construction of tenements in Moabit and neighbouring Wedding, '\n",
+            " 'facilitating the spread of a smallpox epidemic.')\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "gX3bodIeHED_",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 278
+        },
+        "outputId": "1d9cffb6-5c6c-4a1c-ae38-db5124796d10"
+      },
+      "source": [
+        "# Wikinews bidirectional 2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('The bridge is a critical traffic artery for northern Italy. It connects two '\n",
+            " 'sides of the city of Genoa and serves its busy mercantile port, while being '\n",
+            " \"part of the E80 European highway that links Italy to France. It's also on a \"\n",
+            " 'main route used by holidaymakers heading to the Ligurian Riviera from cities '\n",
+            " 'like Turin and Milan.')\n",
+            "\n",
+            "('More importantly, it was built on the scene of tragedy, replacing an earlier '\n",
+            " 'structure, the Morandi bridge, which collapsed on August 14, 2018, killing '\n",
+            " '43 people.')\n",
+            "\n",
+            "('That the replacement has arrived less than two years after the disaster is '\n",
+            " 'something of an achievement. It was constructed rapidly, in a country rarely '\n",
+            " 'considered an exemplar of efficiency. Some of the most challenging work was '\n",
+            " \"carried out amid Europe's worst coronavirus outbreak.\")\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "3uPe4qQxGn3M",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 191
+        },
+        "outputId": "ad084eab-21e8-406d-b165-65e7ab552727"
+      },
+      "source": [
+        "# Wikinews bidirectional 2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('United States forces killed nine suspected al-Qaeda members in a raid at a '\n",
+            " 'town around 12 miles south of Baghdad on Thursday.')\n",
+            "\n",
+            "('Soldiers told residents in the area to get out of their homes after they '\n",
+            " 'noticed several armed men in a nearby wooded area. The soldiers then asked '\n",
+            " 'for air support, which killed nine of the insurgents.')\n",
+            "\n",
+            "('The insurgents were wearing high explosives, say the soldiers. Nine other '\n",
+            " 'suspected insurgents were arrested in the raid.')\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "RZ07XElBGGek",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 347
+        },
+        "outputId": "27ab71d6-84d2-420a-87a7-bb4fbefc9575"
+      },
+      "source": [
+        "# Wikinews bidirectional 2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('In 1818 New Moabit was founded and grew together with Old Moabit to an '\n",
+            " 'industrial suburb district, which was incorporated into the city of Berlin '\n",
+            " 'in 1861.')\n",
+            "\n",
+            "('The industrialization started in 1820 when, with the financial support of '\n",
+            " 'court counsellor Baillif, a simple bridge was built to connect the island to '\n",
+            " 'the Berlin mainland.')\n",
+            "\n",
+            "('The bridge was followed by factories, a power plant, the Berlin-Spandau '\n",
+            " 'Canal, the Westhafen port and the Hamburger Bahnhof train station which '\n",
+            " 'connected Berlin with Hamburg.')\n",
+            "\n",
+            "('A network of streets was laid out in the Hobrecht-Plan in an area that came '\n",
+            " 'to be known architecturally as the Wilhelmine Ring.')\n",
+            "\n",
+            "('All of that activity resulted in an exponential growth of the population and '\n",
+            " 'the subsequent construction of tenements in Moabit and neighbouring Wedding, '\n",
+            " 'facilitating the spread of a smallpox epidemic.')\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8cQXGRH8Fqeu",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 312
+        },
+        "outputId": "ea038bf6-6fd3-4392-e561-d624c48521dc"
+      },
+      "source": [
+        "# Wikinews bidirectional 1"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "('In 1818 New Moabit was founded and grew together with Old Moabit to an '\n",
+            " 'industrial suburb district, which was incorporated into the city of Berlin '\n",
+            " 'in 1861.')\n",
+            "\n",
+            "('The industrialization started in 1820 when, with the financial support of '\n",
+            " 'court counsellor Baillif, a simple bridge was built to connect the island to '\n",
+            " 'the Berlin mainland. The bridge was followed by factories, a power plant, '\n",
+            " 'the Berlin-Spandau Canal, the Westhafen port and the Hamburger Bahnhof train '\n",
+            " 'station which connected Berlin with Hamburg.')\n",
+            "\n",
+            "('A network of streets was laid out in the Hobrecht-Plan in an area that came '\n",
+            " 'to be known architecturally as the Wilhelmine Ring.')\n",
+            "\n",
+            "('All of that activity resulted in an exponential growth of the population and '\n",
+            " 'the subsequent construction of tenements in Moabit and neighbouring Wedding, '\n",
+            " 'facilitating the spread of a smallpox epidemic.')\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    }
+  ]
+}
